@@ -28,7 +28,7 @@ app.use('/register', registerRoutes);
 
 // Handle 404
 app.use((req, res) => {
-    res.status(404).send('Page Not Found');
+    res.status(404).render("Not-Found");
 });
 
 
