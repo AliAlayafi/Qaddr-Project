@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+
+*{
+    padding:0;
+    margin: 0;
+    font-family: "Cairo", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:"slnt" 0; /* slant */
+    /* border: 1px solid red; */
+
+}
+html,body{
+    width:100% ;
+    height:100%;
+    background: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 250px;
+    scroll-behavior: smooth;   
+}
+h1,h2,h3,h4,h5,h6{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+
+
+nav{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+    flex-wrap: wrap;
+    height: auto; 
+}
+.for-nav{
+    width: 100%;
+    display:grid;
+    place-items: center center;
+    background: rgba(255,255,255,.9);
+    background: white;
+}
+
+.custom-navbar {
+    background: white !important;
+    font-size: 18px; 
+}
+
+.custom-navbar img {
+    height: 120px !important; 
+}
+
+.custom-navbar .uk-icon-button {
+    font-size: 20px; 
+}
+.avatar-container{
+    width: 60px;
+    height: 60px;
+    background: #003B3E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.avatar {
+    object-fit: contain !important;
+}
+nav a:hover{
+    text-decoration: underline;
+}
+
+.custom-dropdown {
+    border-radius: 10px; /* 10px border radius */
+    padding: 10px; /* Optional padding inside the dropdown */
+    background: #ffffff; /* Background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+/* Style for Logout link */
+.logout-link {
+    color: red !important; /* Red text for Logout */
+    font-weight: bold !important; /* Make the text bold */
+    text-decoration: none !important; /* Remove underline */
+    transition: color 0.2s !important; /* Smooth transition on hover */
+}
+
+.logout-link:hover {
+    color: darkred !important; /* Darker red on hover */
+}
+
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.uk-input {
+    border: none;
+    border-bottom: 2px solid #000;
+    width: 250px;
+    font-size: 16px; 
+}
+
+.uk-button-green {
+    background-color: #003B3E; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 50%;
+    user-select: none !important;
+}
+
+.uk-inline {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1rem !important;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+/* Table */
+.table{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.uk-table {
+    width: 90%; /* Table takes 80% of the container width */
+    background-color: white; /* Make background white */
+}
+.uk-table th{
+    text-align: center;
+}
+.uk-table tr{
+    background: white !important;
+    text-align: center;
+}
+/* Rounded buttons */
+.uk-button {
+    border-radius: 25px; /* Makes the button rounded */
+}
+
+/* Adjust the button colors */
+.uk-button-objection {
+    background-color: red; /* Red button for Objection */
+    color: white;
+    transition: background-color 250ms;
+}
+.uk-button-objection:hover{
+    background-color: darkred;
+}
+
+.uk-button-appointment {
+    background-color: blue; /* Blue button for Appointment */
+    color: white;
+}
+.uk-button-appointment:hover{
+    background-color: darkblue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer{
+    width: 100%;
+    background: white !important;
+}
+footer img {
+    height: 110px !important;
+}
+
+footer h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+::-webkit-scrollbar{
+    background: white;
+    width: 5px;
+}
+::-webkit-scrollbar-thumb{
+    background: #003B3E;
+    border-radius: 120px;
+    
+}
+
+
+
+.up{
+    border: none;
+    outline: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #01DC82;
+    color:black;
+    font-size: large;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+}

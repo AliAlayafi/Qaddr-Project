@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Request Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
+    <link rel="stylesheet" href="/styles/Manager-Request.css">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
+
+
+</head>
+<body>
+    
+    <br>
+    
+    <div class="top">
+        <nav>
+            
+           <div class="buttons">
+                <a href="" id="Requests">Objections</a>
+                <a href="">Progress</a>
+                <a href=""> Messages</a>
+           </div>
+           <div class="note">
+                <img src="/images/bell.png" alt="bell">
+           </div>
+           <div class="avatar">
+            <img src="/images/person.png" alt="avatar">
+           </div>
+
+        </nav>
+    </div>
+
+    <br>
+
+    <center>
+        <div class="container">
+            <div class="title">
+                <h1>Objection #JKL3330201002</h1>
+                <h3>We trust you to deliver accurate and reliable estimations!</h3>
+            </div>
+        </div>
+    </center>
+
+    <br>
+
+    <div class="wrapper">
+
+        <div class="options">
+            <button>Najem Report</button>
+        </div>
+
+        <div class="photos">
+            <div class="slider uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: none">
+                <div class="uk-slideshow-items">
+                    <div>
+                        <img src="images/medium.jpg" alt="">
+                    </div>
+                    <div>
+                        <img src="images/medium.jpg" alt="">
+                    </div>
+                    <div>
+                        <img src="images/medium.jpg" alt="">
+                    </div>
+                </div>
+        
+                <!-- Navigation Arrows (Always Visible) -->
+                <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+        
+                <!-- Pagination Dots -->
+                <ul class="uk-slideshow-nav uk-dotnav uk-position-bottom-center uk-margin"></ul>
+            </div>
+        </div>
+
+        <br>
+
+    </div>
+    
+    <br>
+    <br>
+
+    
+    <center>
+        <h1 style="color:black;">Employee @name Estimation</h1>
+    </center>
+    <br>
+
+    <center>
+
+            <div class="table">
+
+                <br>
+
+                <h2>No Data Found</h2>
+
+
+                <div class="add" onclick="add()">
+                    <h1>+</h1>
+                </div>
+
+            </div>
+    </center>
+
+
+
+    <div class="final">
+
+        <span>
+            Total: 300$
+        </span>
+        <button id="reject">Reject</button>
+        <button id="approve">Approve</button>
+
+    </div>
+
+
+
+    <br>
+    <br>
+    <br>
+
+
+</body>
+</html>
+
+
+<script>
+
+    function remove(id) {
+
+        document.getElementById(id).remove(); 
+        const table = document.querySelector('.table');
+        if (!table.querySelector('.row')) {
+            const noDataMessage = document.createElement('h2');
+            noDataMessage.textContent = "No Data Found"; 
+            const lastDiv = table.lastElementChild;
+            table.insertBefore(noDataMessage, lastDiv);
+        }
+
+    }
+    function add(){
+            const table = document.querySelector('.table');
+            table.contains(table.querySelector('h2')) ? table.removeChild(table.querySelector('h2')) : null;
+            let randomid = Math.floor(Math.random() * 10000000000000000000000000000);
+        
+            // Create a new row element
+            let newRow = document.createElement('div');
+            newRow.className = 'row';
+            newRow.id = randomid;
+            newRow.innerHTML = `
+                <div class="left">
+                    <input type="text" placeholder="Part">
+                </div>
+                <div class="right">
+                    <input type="text" placeholder="$Cost">
+                </div>
+                <div class="remove" onclick="remove('${randomid}')">
+                    <h1>X</h1>
+                </div>
+            `;
+        
+            
+            const lastDiv = table.lastElementChild;
+
+            table.insertBefore(newRow, lastDiv);
+  
+    }
+
+
+</script>
