@@ -8,8 +8,9 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
 
-    <div class="left">
+    <form action="/register" method="post" class="left">
         
 
         <main>
@@ -27,17 +28,16 @@
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="password" placeholder="Confirm Password" required>
                 <br>
-                <button>Register</button>
+                <button type="submit">Register</button>
                 <center>
                     <h4>have an account? <a href="/login">Login</a></h4>
                 </center>
             </div>
 
-
         </main>
 
 
-    </div>
+    </form>
 
 
 
@@ -50,6 +50,7 @@
     
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>

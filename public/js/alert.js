@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     Swal.fire({
         icon: 'info', // Use 'type' dynamically, fallback to 'info' if not provided
         title: `<center><h3>${message}</h3></center>`,
-        timer: 1000,
+        timer: 2500,
         timerProgressBar: true,
         toast: true,
         position: 'top-end',

@@ -14,12 +14,10 @@
     
 
     <section class="for-nav" id="start">
-        <nav class="uk-navbar-container custom-navbar " uk-navbar>
+        <nav class="uk-navbar-container custom-navbar" uk-navbar>
 
-            <div class="uk-navbar-left uk-padding-small">
-                <a href="#">
-                    <img src="logo/png/logo-black-removebg-preview.png" alt="Logo" style="height: 60px;">
-                </a>
+            <div class="uk-navbar-left" >
+                    <img src="logo/png/logo-black-removebg-preview.png" alt="Logo" style="height: 120px !important;">
             </div>
     
             <div class="uk-navbar-center">
@@ -29,18 +27,23 @@
                 </ul>
             </div>
     
-            <div class="uk-navbar-right uk-padding-small">
+            <div class="uk-navbar-right">
                 <div>
-                    <div class="avatar-container">
+                    <div class="avatar-container" style="height: 60px !important;">
                         <img src="/images/person.png" alt="User Avatar" class="avatar">
                     </div>
                     <div uk-dropdown="mode: click; pos: bottom-right" class="custom-dropdown">
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li><a href="/logout" class="logout-link">Logout</a></li>
+                            <li class="uk-flex uk-flex-center">
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="logout-link">Logout</button>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            
         </nav>
     </section>
     
@@ -55,7 +58,7 @@
         <div class="uk-inline">
             <input class="uk-input" type="text" placeholder="Accident number" id="accident-number">
             <button class="uk-button uk-button-green uk-icon">
-                <img src="/images/search.svg" alt="Search" style="height: 20px;">
+                <span uk-icon="icon: search; ratio: 1.2" style="color:white;"></span>
             </button>
         </div>
     </div>

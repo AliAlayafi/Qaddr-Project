@@ -8,8 +8,10 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
 
-    <div class="left">
+
+    <form action="/login" method="post" class="left">
         
 
         <main>
@@ -40,7 +42,7 @@
         </main>
 
 
-    </div>
+    </form>
 
 
 
@@ -53,6 +55,7 @@
     
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>
