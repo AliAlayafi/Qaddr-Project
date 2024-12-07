@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees Main Page</title>
-    <link rel="stylesheet" href="/styles/Employee-Progress.css">
+    <link rel="stylesheet" href="/styles/Employees-Progress.css">
 </head>
 <body>
     
-    <br>
+   <br>
     
     <div class="top">
         <nav>
             
            <div class="buttons">
-                <a href="">Requests</a>
-                <a href="" id="active">Progress</a>
-                <a href=""> Messages</a>
+                <a href="main">Requests</a>
+                <a href="progress" id="active">Progress</a>
+                <a href="messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -55,10 +55,12 @@
     <br>
     <br>
 
-    <a href="" id="logout">
-        <img src="/images/logout.png" alt="logout">
-        Logout
-    </a>
+    <form action="/employees/logout" method="post">
+        <button type="submit" id="logout">
+            <img src="/images/logout.png" alt="logout">
+                Logout
+        </button>
+       </form>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

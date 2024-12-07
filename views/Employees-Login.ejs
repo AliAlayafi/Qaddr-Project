@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees Login</title>
-    <link rel="stylesheet" href="/styles/Employee-Login.css">
+    <link rel="stylesheet" href="/styles/Employees-Login.css">
 </head>
 <body>
-    
 
-    <div class="left">
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+
+    <form action="/employees/login" method="post" class="left">
         
 
         <main>
@@ -23,20 +24,20 @@
             </div>
             <div class="login">
                 <br>
-                <input type="text" placeholder="Username">
+                <input type="text" name="username" placeholder="Username">
                 <br>
                 <div class="pass">
-                    <input type="password" placeholder="Password" >
+                    <input type="password" name="password" placeholder="Password" >
                 </div>
                 <br>
-                <button>Login</button>
+                <button type="submit">Login</button>
             </div>
 
 
         </main>
+        
 
-
-    </div>
+    </form>
 
 
 
@@ -48,7 +49,7 @@
 
     
 
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>

@@ -192,6 +192,9 @@ nav{
 
 
 #logout{
+    background: transparent;
+    cursor: pointer;
+    border: none;
     position: fixed;
     bottom: 5px;
     left: 5px;

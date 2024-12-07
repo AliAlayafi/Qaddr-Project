@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees Main Page</title>
-    <link rel="stylesheet" href="/styles/Employee-Main.css">
+    <link rel="stylesheet" href="/styles/Employees-Main.css">
 </head>
 <body>
-    
+
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+
     <br>
     
     <div class="top">
         <nav>
             
            <div class="buttons">
-                <a href="" id="Requests">Requests</a>
-                <a href="">Progress</a>
-                <a href=""> Messages</a>
+                <a href="main" id="Requests">Requests</a>
+                <a href="progress">Progress</a>
+                <a href="messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -157,11 +159,17 @@
     <br>
     <br>
 
-    <a href="" id="logout">
+   <form action="/employees/logout" method="post">
+    <button type="submit" id="logout">
         <img src="/images/logout.png" alt="logout">
-        Logout
-    </a>
+            Logout
+    </button>
+   </form>
 
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>

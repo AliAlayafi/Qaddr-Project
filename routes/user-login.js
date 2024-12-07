@@ -6,8 +6,11 @@ const { comparePassword } = require('../utils/passwordUtils');
  
 
 router.get('/', (req, res) => {
-    if(req.session.userId) return res.redirect('/main');
-    
+
+    if(req.session.role) return res.redirect('/employees/login'); // Employee Cant Access the users login page
+
+    if(req.session.userId && (!req.session.role)) return res.redirect('/main');
+
     return res.render('Users-Login',{alert:''});
 });
 

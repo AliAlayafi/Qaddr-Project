@@ -14,9 +14,9 @@
         <nav>
             
            <div class="buttons">
-                <a href="" id="Requests">Objections</a>
-                <a href="">Progress</a>
-                <a href=""> Messages</a>
+                <a href="main" id="Requests">Objections</a>
+                <a href="progress">Progress</a>
+                <a href="messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -157,10 +157,12 @@
     <br>
     <br>
 
-    <a href="" id="logout">
-        <img src="/images/logout.png" alt="logout">
-        Logout
-    </a>
+    <form action="/employees/logout" method="post">
+        <button type="submit" id="logout">
+            <img src="/images/logout.png" alt="logout">
+                Logout
+        </button>
+    </form>
 
 
 </body>

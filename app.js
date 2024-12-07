@@ -48,20 +48,24 @@ app.use('/register', Users_Register_Route);
 app.use('/main', Users_Main_Route); 
 
 
+// Employees
+const Employees_Route = require('./routes/employees');
+const Managers_Route = require('./routes/managers');
+
+
+app.use('/employees', Employees_Route); 
+app.use('/managers', Managers_Route); 
+
+
+
+
+
 
 
 // Handle 404
 app.use((req, res) => {
     res.status(404).render("Not-Found");
 });
-
-
-
-
-
-
-
-
 
 
 

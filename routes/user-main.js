@@ -4,10 +4,10 @@ const router = express.Router();
 router.get('/', (req, res) => {
     // return res.render('Users-Main');
 
-    if(req.session.userId){
+    if(req.session.userId && (!req.session.role)){
         return res.render('Users-Main');
     }else{
-        return res.redirect('/login');
+        return res.redirect('login');
     }
  
 });
