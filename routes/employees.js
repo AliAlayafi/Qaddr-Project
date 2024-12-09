@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const Employee = require('../models/Employee');
+const Message = require('../models/Message');
+
 const { comparePassword } = require('../utils/passwordUtils'); 
 
 
@@ -23,13 +25,26 @@ router.use('/progress', isEmployee, (req, res) => {
 })
 
 
-router.use('/messages', isEmployee, (req, res) => {
-    return res.render('Employees-Messages');
+router.use('/messages', isEmployee, async (req, res) => {
+
+    try {
+        const messages = await Message.find(
+            { employee_id: req.session.userId },
+            'title message created_at'
+        ).sort({ created_at: -1 }); // Sort by most recent messages
+
+        // Render the page and send messages data
+        return res.render('Employees-Messages', { messages });
+    } catch (err) {
+        console.error('Error fetching messages:', err);
+        return res.status(500).send('Internal Server Error');
+    }
+
 })
 
 
 router.get('/login', (req, res) => {
-    console.log(1,req.session.userId,req.session.role)
+
     if(!req.session.userId) return res.render('Employees-Login', {alert:''});
 
     if(!req.session.role) return res.redirect('/main'); // Logged User Cant Access the Employee login page

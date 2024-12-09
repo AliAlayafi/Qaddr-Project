@@ -8,6 +8,7 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
     <br>
     
     <div class="top">
@@ -41,32 +42,28 @@
         <div class="requests">
 
            <div class="for-input">
-                <input type="text" placeholder="Employee Name" list="name-suggestions">
+                <input type="text" placeholder="Employee Name" list="name-suggestions" id="selectEmployee" required>
                 <datalist id="name-suggestions">
-                    <option value="Ahmed">
-                    <option value="Khalid">
-                    <option value="Ali">
-                    <option value="Mohammed">
+                    <% names.forEach(name => { %>
+                        <option value="<%= name.username %>" data-id="<%= name._id %>"></option>
+                    <% }) %>
                 </datalist>
-                <div class="icon"></div>
            </div>
            <br>
-           <div class="form">
 
-                <div class="form-title">
-                    <input type="text" name="title" placeholder="Title" >
-    
-                </div>
-                <div class="form-message">
-                    <textarea placeholder="Your Message...."></textarea>
-                </div>
-
-
-           </div>
+           <form action="/managers/messages" method="post" class="form">
+            <input type="hidden" name="employeeId" id="employeeId" required>
+            <div class="form-title">
+                <input type="text" name="title" placeholder="Title" required>
+            </div>
+            <div class="form-message">
+                <textarea name="message" placeholder="Your Message..." required></textarea>
+            </div>
+            <br>
+            <button type="submit">Send</button>
+        </form>
            <br>
            
-           <button>Send</button>
-
 
            
 
@@ -86,6 +83,25 @@
         </button>
     </form>
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>
 
+
+<script>
+
+    document.querySelector('form').addEventListener('submit', (e) => {
+        const employeeName = document.querySelector('#selectEmployee').value;
+        const employeeOption = Array.from(document.querySelectorAll('#name-suggestions option')).find(
+            option => option.value === employeeName
+        );
+        if (!employeeOption) {
+            e.preventDefault();
+            document.querySelector(".for-input").style.border = "1px solid red";
+            return;
+        }
+        document.querySelector('#employeeId').value = employeeOption.getAttribute('data-id');
+    });
+</script>

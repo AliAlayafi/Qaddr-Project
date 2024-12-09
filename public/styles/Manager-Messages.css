@@ -141,7 +141,7 @@ nav{
     border-radius: 10px;
 }
 .for-input input{
-    width:80%;
+    width:100%;
     height:100%;
     outline: none;
     border: none;
@@ -150,20 +150,7 @@ nav{
     font-size: large;
     background: whitesmoke;
 }
-.icon{
-    width:20%;
-    height:100%;
-    background: #003B3E;
-    background-image: url('/images/search.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 35%;
-    cursor: pointer;
-    transition: 250ms;
-}
-.icon:hover{
-    background-color: #05565a;
-}
+
 
 .form{
     width: 70%;
