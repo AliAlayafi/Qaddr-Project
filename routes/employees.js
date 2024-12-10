@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Employee = require('../models/Employee');
 const Message = require('../models/Message');
+const Accident = require('../models/Accident');
 
 const { comparePassword } = require('../utils/passwordUtils'); 
 
@@ -13,10 +14,29 @@ const isEmployee = (req, res, next) => {
     next();
 };
 
+// router.get('/t',async (req,res) => {
+//     const testAccident = new Accident({
+//         accident_id: 12345678,
+//         images: [
+//             "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/2wCEAAE",
+//             "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/2wCEAAE",
+//             "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/2wCEAAE"
+//         ],
+//         status: 'Pending',
+//     });
+
+//     const savedAccident = await testAccident.save();
+// })
+
 
 router.use('/main', isEmployee, async (req, res) => {
 
-    return res.render('Employees-Main', {alert:''});
+    const accidents = await Accident.find(
+        {status:'Process'},
+        'accident_id created_at'
+    ).sort({ created_at: 1 });
+
+    return res.render('Employees-Main', {alert:'',requests:accidents});
  
 });
 

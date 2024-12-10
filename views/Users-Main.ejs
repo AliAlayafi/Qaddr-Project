@@ -12,6 +12,39 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+
+
+    
+    <div class="upload-view" style="display: none;">
+        <div class="upload">
+            <h3>Upload up to 3 Photos of the Accident</h3>
+            <h6>Make sure the images are clear and highlight the damage effectively.</h6>
+            <br>
+            <label for="file-upload" class="js-upload">
+                <span uk-icon="icon: cloud-upload"></span>
+                <p>Drag & drop your images here or</p>
+                <button class="upload-button">Select Images</button>
+                <input id="file-upload" type="file" multiple accept="image/*">
+            </label>
+
+            <progress id="js-progressbar" class="uk-progress" hidden></progress>
+        </div>
+        <form action="/main/upload" method="post" class="upload-form" style="display: none;">
+            <!-- Hidden input to hold the Base64 images data -->
+            <input type="hidden" name="images" class="images" required>
+            <input type="hidden" name="aid" class="aid" value="<%=aid%>" required>
+        </form>
+    </div>
+    
+    
+    
+
+
+
+
+
+
 
     <section class="for-nav" id="start">
         <nav class="uk-navbar-container custom-navbar" uk-navbar>
@@ -53,14 +86,13 @@
         <p>Request a car damage estimate effortlessly! Simply upload clear photos of your vehicle, share a few details, and let our advanced system analyze the damage. Get a detailed report with repair costs, parts replacement recommendations, and more—fast and hassle-free!</p>
     </div>
 
-
     <div class="uk-container uk-text-center uk-margin-medium-top">
-        <div class="uk-inline">
-            <input class="uk-input" type="text" placeholder="Accident number" id="accident-number">
-            <button class="uk-button uk-button-green uk-icon">
+        <form action="/main" method="post" class="uk-inline">
+            <input class="uk-input" type="text" placeholder="Accident number" id="accident-number" name="aid" required>
+            <button type="submit" class="uk-button uk-button-green uk-icon">
                 <span uk-icon="icon: search; ratio: 1.2" style="color:white;"></span>
             </button>
-        </div>
+        </form>
     </div>
 
 
@@ -84,32 +116,55 @@
             </thead>
             <tbody>
                 <!-- Example Row 1 -->
-                <tr>
+                <% if(!data.length) { %>
+
+                    <tr>
+                            <td><h5>-</h5></td>
+                            <td><h5>-</h5></td>
+                            <td><h5>-</h5></td>
+                            <td><h5>-</h5></td>
+
+                    </tr>
+
+                <% } %>
+                <% data.forEach(info => { %>        
+                    <tr>
+                        <td><%=info.accident_id%></td>
+                        <td><%=new Date(info.created_at).toLocaleString()%></td>
+                        <td><%=info.status%></td>
+                        <td>
+                            <h4>-</h4>
+                        </td>
+                    </tr>
+                <% }) %>
+
+                <!-- <tr>
                     <td>REQ-00123</td>
                     <td>2024-11-30</td>
                     <td>Pending</td>
                     <td>
                         <button class="uk-button uk-button-objection">Objection</button>
                     </td>
-                </tr>
+                </tr> -->
                 <!-- Example Row 2 -->
-                <tr>
+                <!-- <tr>
                     <td>REQ-00456</td>
                     <td>2024-11-28</td>
                     <td>Completed</td>
                     <td>
                         <button class="uk-button uk-button-appointment">Appointment</button>
                     </td>
-                </tr>
+                </tr> -->
                 <!-- Example Row 3 -->
-                <tr>
+                <!-- <tr>
                     <td>REQ-00789</td>
                     <td>2024-11-25</td>
                     <td>In Progress</td>
                     <td>
                         <h4>-</h4>
                     </td>
-                </tr>
+                </tr> -->
+
             </tbody>
         </table>
     </section>
@@ -168,12 +223,14 @@
     <button class="up" style="display: none;" onclick="location.href = '#start'">↑</button> 
     
 
-
-
-
+    
+<script src="js/upload.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
+
 
 
 <script>
@@ -192,4 +249,21 @@
             button.style.display = "none"; 
         }
     });
+    
+</script>
+
+
+<script>
+
+    if(document.querySelector('.aid').value){
+        document.querySelector(".upload-view").style.display = "flex";
+    }
+
+    document.querySelector('.upload-view').addEventListener('click', function (e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+        }
+    });
+
+
 </script>

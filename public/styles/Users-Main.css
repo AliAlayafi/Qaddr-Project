@@ -264,3 +264,102 @@ footer a:hover {
     right: 20px;
     cursor: pointer;
 }
+
+
+
+
+
+.upload-view {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px); /* Add a subtle background blur effect */
+}
+
+.upload {
+    width: fit-content;
+    padding: 3rem;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.upload h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.upload h6 {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+label.js-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #cccccc;
+    border-radius: 10px;
+    padding: 20px;
+    color: #666;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+label.js-upload:hover {
+    border-color: #003B3E;
+    background: #eef7ff;
+    color: #003B3E;
+}
+
+label.js-upload input[type="file"] {
+    display: none; /* Hide the input element */
+}
+
+.upload-button {
+    display: inline-block;
+    background-color: #01DC82;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.upload-button:hover {
+    background-color: #003B3E;
+}
+
+
+progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px; /* Adjust height */
+    border-radius: 10px;
+    overflow: hidden;
+    background: #e0e0e0; /* Background of the progress track */
+    margin-top: 20px;
+}
+
+
+
+.upload-view:checked{
+    display: none;
+}
