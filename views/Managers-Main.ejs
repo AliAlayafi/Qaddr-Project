@@ -40,105 +40,36 @@
 
         <div class="requests">
 
-            <div class="row">
-                <div class="cl1">
-                    <h3>Date</h3>
+            <center>
+                <div class="row">
+                    <div class="cl1">
+                        <h3>Date</h3>
+                    </div>
+                    <div class="cl2">
+                        <h3>Accident number</h3>
+                    </div>
+                    <div class="cl3"></div>
                 </div>
-                <div class="cl2">
-                    <h3>Accident number</h3>
-                </div>
-                <div class="cl3"></div>
-            </div>
+            </center>
+           <center class="center-rows">
+            <% requests.forEach(request => { %>
 
+                
+                <div class="row">
+                    <div class="cl1">
+                        <h3><%=new Date(request.created_at).toLocaleDateString('en-US')%></h3>
+                    </div>
+                    <div class="cl2">
+                        <h3>#<%=request.accident_id%></h3>
+                    </div>
+                    <div class="cl3">
+                        <button class="view">View</button>
+                    </div>
+                </div>
 
-            <div class="row">
-                <div class="cl1">
-                    <h3>Oct. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
+            <% }) %>
 
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>Aug. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>July. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>July. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>July. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>July. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="cl1">
-                    <h3>July. 21, 2024</h3>
-                </div>
-                <div class="cl2">
-                    <h3>JKL3330201002</h3>
-                </div>
-                <div class="cl3">
-                    <button class="view">View</button>
-                </div>
-            </div>
+           </center>
 
 
 

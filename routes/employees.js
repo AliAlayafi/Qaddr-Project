@@ -4,13 +4,15 @@ const router = express.Router();
 const Employee = require('../models/Employee');
 const Message = require('../models/Message');
 const Accident = require('../models/Accident');
+const Najem = require('../models/Najem');
+
 
 const { comparePassword } = require('../utils/passwordUtils'); 
 
 
 
 const isEmployee = (req, res, next) => {
-    if (!req.session.userId || req.session.role !== 1) return res.redirect('login');
+    if (!req.session.userId || req.session.role !== 1) return res.redirect('/employees/login');
     next();
 };
 
@@ -29,6 +31,42 @@ const isEmployee = (req, res, next) => {
 // })
 
 
+router.put('/main/:id', async (req,res) => {
+    try{
+        if (!req.session.userId || req.session.role !== 1) return res.redirect('/employees/login');
+        const accident = await Accident.findOne({ accident_id: req.params.id });
+        accident.status = "Rejected"
+        accident.message = req.body.reasonText;
+        await accident.save();
+        return res.status(200).send("Request Rejected Successfully!");
+    }catch(err){
+        return res.status(400).send("Error Rejected Request!");
+    }   
+})
+router.use('/main/:id',isEmployee,async (req,res) => {
+
+    // check valid accident number
+    const accident = await Accident.findOne({ accident_id: req.params.id });
+    if(!accident)return res.redirect("/employees/main");
+
+    // Valid accident
+
+    // Get The Data
+
+    console.log(accident)
+
+    accident.images = JSON.parse(accident.images);
+    accident.AI_Response = [
+        { part: 'front-bumper', price: 5000 },
+        { part: 'rear-bumper', price: 5000 }
+    ];
+
+
+    const najemData = await Najem.findOne({ accident_id: req.params.id });
+   
+    return res.render('Employees-Request', {data:accident,najemData,alert:""});
+})
+
 router.use('/main', isEmployee, async (req, res) => {
 
     const accidents = await Accident.find(
@@ -39,6 +77,8 @@ router.use('/main', isEmployee, async (req, res) => {
     return res.render('Employees-Main', {alert:'',requests:accidents});
  
 });
+
+
 
 router.use('/progress', isEmployee, (req, res) => {
     return res.render('Employees-Progress');

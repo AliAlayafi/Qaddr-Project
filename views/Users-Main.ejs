@@ -111,7 +111,7 @@
                     <th>Request Number</th>
                     <th>Date</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Info</th>
                 </tr>
             </thead>
             <tbody>
@@ -133,7 +133,12 @@
                         <td><%=new Date(info.created_at).toLocaleString()%></td>
                         <td><%=info.status%></td>
                         <td>
-                            <h4>-</h4>
+                            <% if(info.status === 'Rejected') { %>
+                                <p><%= info.message %> re-upload the images.</p>
+                            <% }else{ %>
+                                <h4>-</h4>
+                            <% } %>
+                            
                         </td>
                     </tr>
                 <% }) %>

@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 
 const najemSchema = new mongoose.Schema({
     accident_id: { type: Number, required: true, unique: true }, // Unique accident ID
+    car_brand: { type: String, required: true },
+    car_model: { type: String, required: true },
+    car_model_year: { type: String, required: true },
+    description: { type: String, default: "" },
     damage_info: {
         type: [String], // Array of strings for damage areas
         enum: [
@@ -18,17 +22,17 @@ const najemSchema = new mongoose.Schema({
         ],
         required: true,
     },
-    description: { type: String, default: "" }, // Optional description
     images: { 
         type: [String], // Array of base64 image strings
-        validate: [arrayLimit, 'Exceeds the limit of 3 images'] // Limit to 3 images
+        validate: [arrayLimit, 'Exceeds the limit of 3 images'], // Limit to 3 images
+        required: true,
     },
     created_at: { type: Date, default: Date.now }, // Automatically set creation date
 });
 
 
 function arrayLimit(val) {
-    return val.length <= 3; // Limit to 3 images
+    return (val.length <= 3 && val.length >= 1); // 1-3
 }
 
 

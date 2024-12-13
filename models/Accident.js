@@ -8,19 +8,23 @@ const accidentSchema = new mongoose.Schema({
     },
     images: { 
         type: [String],
-        validate: [arrayLimit, 'You can only upload up to 3 images'] 
+        validate: [arrayLimit, 'You can only upload up to 3 images'] ,
+        required: true, 
     },
     AI_Images: { 
         type: [String], 
-        validate: [arrayLimit, 'You can only upload up to 3 images'] 
+        validate: [arrayLimit, 'You can only upload up to 3 images'],
+        default: [""]
     },
     employee_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Employee'
+        ref: 'Employee',
+        default: null
     },
     user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User'
+        ref: 'User',
+        required: true, 
     },
     status: { 
         type: String, 
@@ -62,7 +66,7 @@ const accidentSchema = new mongoose.Schema({
 
 // Custom validator to ensure only 3 images
 function arrayLimit(val) {
-    return val.length <= 3;
+    return (val.length >= 1 && val.length <= 3);
 }
 
 module.exports = mongoose.model('Accident', accidentSchema);

@@ -67,11 +67,15 @@ app.use('/managers', Managers_Route);
 //     try {
 //         // Create a test Najem report
 //         const testNajem = new Najem({
-//             accident_id: 12345679,
-//             damage_info: ['front', 'rear-right'], 
-//             description: "Test report for front and rear-right damages.",
-//             images: ['base64_image_1', 'base64_image_2'], 
+//             accident_id: 445566,
+//             car_brand: "Nissan",
+//             car_model: "Altima",
+//             car_model_year: "2022",
+//             description: "Severe front-end collision with possible engine damage.",
+//             damage_info: ['front', 'side-right'],
+//             images: ['base64_image_7', 'base64_image_8'],
 //         });
+        
 
 //         // Save to the database
 //         const savedNajem = await testNajem.save();

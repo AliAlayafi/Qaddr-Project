@@ -5,23 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees Request Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/css/uikit.min.css" />
-    <link rel="stylesheet" href="/styles/Employee-Request.css">
+    <link rel="stylesheet" href="/styles/Employees-Request.css">
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.22/dist/js/uikit-icons.min.js"></script>
 
 
 </head>
 <body>
-    
+
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+
     <br>
     
     <div class="top">
         <nav>
             
            <div class="buttons">
-                <a href="main" id="Requests">Requests</a>
-                <a href="progress">Progress</a>
-                <a href="messages"> Messages</a>
+                <a href="/main" id="Requests">Requests</a>
+                <a href="/employees/progress">Progress</a>
+                <a href="/employees/messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -38,7 +40,7 @@
     <center>
         <div class="container">
             <div class="title">
-                <h1>Requests #JKL3330201002</h1>
+                <h1>Requests #<%= data.accident_id%></h1>
                 <h3>We trust you to deliver accurate and reliable estimations!</h3>
             </div>
         </div>
@@ -50,21 +52,18 @@
 
         <div class="options">
             <button>AI images</button>
-            <button>Najem Report</button>
+            <button id="Najem">Najem Report</button>
         </div>
 
         <div class="photos">
             <div class="slider uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: none">
                 <div class="uk-slideshow-items">
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
+                    <% data.images.forEach(img => {%> 
+                        <div>
+                            <img src="<%=img%>" alt="Accident_image">
+                        </div> 
+                    <% }) %>
+                    
                 </div>
         
                 <!-- Navigation Arrows (Always Visible) -->
@@ -95,7 +94,25 @@
 
                 <br>
 
-                <h2>No Data Found</h2>
+                <!-- <h2>No Data Found</h2> -->
+                 <% data.AI_Response.forEach(reponse => { %>
+
+                    <div class="row">
+                        <div class="left">
+                            <input type="text" name="" value="<%= reponse.part%>" placeholder="Part">
+                        </div>
+                        <div class="right">
+                            <input type="text" name="" value="<%= reponse.price %>">
+                        </div>
+                        <div class="remove"><h1>X</h1></div>
+                     </div>
+
+                <% }) %>
+
+                 
+                 
+
+                 
 
 
                 <div class="add" onclick="add()">
@@ -109,8 +126,8 @@
 
     <div class="final">
 
-        <span>
-            Total: 300$
+        <span class="total">
+            Total: 0$
         </span>
         <button id="reject">Reject</button>
         <button id="approve">Approve</button>
@@ -123,52 +140,162 @@
     <br>
     <br>
 
-
+<script src="/js/Najem.js"></script>
+<script src="/js/alert.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
 
 
+
+
+<script>
+    const najemData = <%- JSON.stringify(najemData) %>;
+
+    document.querySelector("#reject").addEventListener("click", () => {
+        Swal.fire({
+            title: 'Reject Report',
+            text: 'Please select a reason for rejection:',
+            icon: 'warning',
+            input: 'select',
+            inputOptions: {
+                '1': 'The pictures are not clear',
+                '2': 'Not the same car',
+            },
+            inputPlaceholder: 'Select a reason...',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'You need to select a reason!';
+                }
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: '#ffffff', // Set modal background to white
+            color: '#003B3E', // Text color
+            confirmButtonColor: '#01DC82', 
+            cancelButtonColor: '#d33',
+            customClass: {
+                title: 'swal-title',
+                popup: 'swal-popup',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedReason = result.value; // '1' or '2'
+                let reasonText = selectedReason === '1'
+                    ? 'The pictures are not clear'
+                    : 'Not the same car';    
+                sendRequest(reasonText);
+
+            }
+        });
+    });
+    
+
+    async function sendRequest(reasonText) {
+        try {
+          const response = await fetch('', { 
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reasonText }), 
+          });
+
+          if (!response.ok) {
+            message('Error');
+          }else{
+            location.href = "/employees/main?alert=Rejected Successfully"
+          }
+        } catch (error) {
+          message('Error');
+        }
+      }
+
+
+</script>
+
+
 <script>
 
-    function remove(id) {
+    // Function to calculate and update the total
+    function refresh() {
+        let total = 0;
+        document.querySelectorAll('.right input').forEach(row => {
+            const price = parseFloat(row.value) || 0; // Handle empty or invalid input
+            total += price;
+        });
+        document.querySelector('.total').textContent = `Total: ${total.toFixed(2)}$`; // Keep 2 decimal places
+    }
 
-        document.getElementById(id).remove(); 
+    // Function to remove a row and update total
+    function remove(id) {
+        const row = document.getElementById(id);
+        if (row) {
+            row.remove(); // Remove the row
+            refresh(); // Recalculate total after removal
+        }
+
         const table = document.querySelector('.table');
         if (!table.querySelector('.row')) {
             const noDataMessage = document.createElement('h2');
-            noDataMessage.textContent = "No Data Found"; 
+            noDataMessage.textContent = "No Data Found";
             const lastDiv = table.lastElementChild;
             table.insertBefore(noDataMessage, lastDiv);
         }
-
-    }
-    function add(){
-            const table = document.querySelector('.table');
-            table.contains(table.querySelector('h2')) ? table.removeChild(table.querySelector('h2')) : null;
-            let randomid = Math.floor(Math.random() * 10000000000000000000000000000);
-        
-            // Create a new row element
-            let newRow = document.createElement('div');
-            newRow.className = 'row';
-            newRow.id = randomid;
-            newRow.innerHTML = `
-                <div class="left">
-                    <input type="text" placeholder="Part">
-                </div>
-                <div class="right">
-                    <input type="text" placeholder="$Cost">
-                </div>
-                <div class="remove" onclick="remove('${randomid}')">
-                    <h1>X</h1>
-                </div>
-            `;
-        
-            
-            const lastDiv = table.lastElementChild;
-
-            table.insertBefore(newRow, lastDiv);
-  
     }
 
+    // Function to add a new row
+    function add() {
+        const table = document.querySelector('.table');
+        table.contains(table.querySelector('h2')) ? table.removeChild(table.querySelector('h2')) : null;
+        
+        let randomid = Math.floor(Math.random() * 1e16); // Generate a unique ID
+        
+        // Create a new row element
+        let newRow = document.createElement('div');
+        newRow.className = 'row';
+        newRow.id = randomid;
+        newRow.innerHTML = `
+            <div class="left">
+                <input type="text" placeholder="Part">
+            </div>
+            <div class="right">
+                <input type="text" placeholder="$Cost">
+            </div>
+            <div class="remove" onclick="remove('${randomid}')">
+                <h1>X</h1>
+            </div>
+        `;
+
+        const lastDiv = table.lastElementChild;
+        table.insertBefore(newRow, lastDiv);
+
+        // Add event listener to the new input
+        newRow.querySelector('.right input').addEventListener('keyup', refresh);
+    }
+
+    // Attach remove handlers to all existing rows
+    function attachRemoveHandlers() {
+        document.querySelectorAll('.row').forEach(row => {
+            const removeButton = row.querySelector('.remove');
+            if (removeButton) {
+                const id = row.id || `row-${Math.random()}`; // Ensure the row has an ID
+                row.id = id;
+                removeButton.setAttribute('onclick', `remove('${id}')`);
+            }
+        });
+    }
+
+    // Add event listeners to all existing rows' inputs
+    document.querySelectorAll('.right input').forEach(input => {
+        input.addEventListener('keyup', refresh);
+    });
+
+    // Attach handlers and calculate initial total on page load
+    attachRemoveHandlers();
+    refresh();
 
 </script>

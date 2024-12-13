@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Employee = require('../models/Employee');
 const Message = require('../models/Message');
+const Accident = require('../models/Accident');
 
 
 
@@ -15,7 +16,12 @@ const isManager = (req, res, next) => {
 
 router.use('/main', isManager, async (req, res) => {
 
-    return res.render('Managers-Main');
+    const accidents = await Accident.find(
+      {status:'Objection'},
+      'accident_id created_at'
+    ).sort({ created_at: 1 });
+
+  return res.render('Managers-Main', {alert:'',requests:accidents});
  
 });
 

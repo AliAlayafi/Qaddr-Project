@@ -129,8 +129,7 @@ nav{
     /* background: lime; */
     max-width: 700px;
     overflow-y: scroll;
-   display: grid;
-   place-items: start center;
+   display: block;
    /* background: lime; */
 
 }
@@ -151,13 +150,12 @@ nav{
     /* background: red; */
     border-radius: 8px;
 }
-.requests .row:not(:first-child):hover {
+.center-rows .row:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     cursor: default;
     transform: scale(1.01);
     transition: 250ms;
 }
-
 
 .cl1{
     width:25%;
@@ -166,6 +164,7 @@ nav{
     display: flex;
     justify-content: start;
     align-items: center;
+    
     padding-left: 5%;
 }
 .cl2{
@@ -201,7 +200,6 @@ nav{
     background: #003B3E;
     color:whitesmoke;
 }
-
 
 #logout{
     background: transparent;

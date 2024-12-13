@@ -239,6 +239,7 @@ input[type="text"]{
     background: red;
     transition: 250ms;
     user-select: none;
+    color: white;
 }
 .remove:hover{
     background: #C20D0D;

@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 
     const Accidents = await Accident.find(
         { user_id: req.session.userId },
-        'accident_id created_at status'
+        'accident_id created_at status message'
     ).sort({ created_at: -1 }); 
 
     return res.render('Users-Main', {alert:'',aid:"",data:Accidents});
@@ -85,6 +85,7 @@ router.post("/upload", async (req, res) => {
             if(Accidents.status == "Rejected"){
                 // Update the old Report
                 Accidents.images = images;
+                Accidents.message = "";
                 Accidents.status = 'Pending'; 
                 await Accidents.save(); // Save the updated record
                 return res.redirect('/main?alert=Accident Photos Updated Successfully!');
@@ -94,11 +95,10 @@ router.post("/upload", async (req, res) => {
 
         }
 
-        
-
        
 
     } catch (error) {
+        console.log(error)
         return res.redirect('/main?alert=An error occurred while processing your request. Please try again.');
     }
 });
