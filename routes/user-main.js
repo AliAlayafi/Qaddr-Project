@@ -12,12 +12,37 @@ router.get('/', async (req, res) => {
 
     const Accidents = await Accident.find(
         { user_id: req.session.userId },
-        'accident_id created_at status message'
+        'accident_id created_at status message AI_Response'
     ).sort({ created_at: -1 }); 
 
     return res.render('Users-Main', {alert:'',aid:"",data:Accidents});
 });
 
+
+router.put('/:id', async (req, res) => {
+    try {
+        // get the aid
+        // check the accident id for the same user and the state is Reviewed
+        // if so edit the accident status to objection and put the message
+        const aid  = req.params.id;
+        const reason  = req.body.reason;
+
+        const accident_info = await Accident.findOne({ accident_id: aid, user_id: req.session.userId, status: "Reviewed" });
+        if(!accident_info || !reason.length){
+             return res.status(400).send("BAD");
+        }
+    
+        accident_info.status = "Objection";
+        accident_info.message = reason;
+        await accident_info.save();
+        
+        return res.status(200).send("OK");
+    } catch (error) {
+        return res.status(400).send("BAD");
+
+    }
+
+});
 
 
 router.post('/', async (req, res) => {

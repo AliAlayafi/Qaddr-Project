@@ -40,7 +40,22 @@ router.put('/main/:id', async (req,res) => {
         await accident.save();
         return res.status(200).send("Request Rejected Successfully!");
     }catch(err){
-        return res.status(400).send("Error Rejected Request!");
+        return res.status(400).send("Error!");
+    }   
+})
+
+router.post('/main/:id', async (req,res) => {
+    try{
+        if (!req.session.userId || req.session.role !== 1) return res.redirect('/employees/login');
+        const accident = await Accident.findOne({ accident_id: req.params.id });
+        accident.employee_id = req.session.userId;
+        accident.response_at = new Date();
+        accident.AI_Response = req.body;
+        accident.status = "Reviewed";
+        await accident.save();
+        return res.status(200).send("Request Sent Successfully!");
+    }catch(err){
+        return res.status(400).send("Error!");
     }   
 })
 router.use('/main/:id',isEmployee,async (req,res) => {
@@ -52,8 +67,6 @@ router.use('/main/:id',isEmployee,async (req,res) => {
     // Valid accident
 
     // Get The Data
-
-    console.log(accident)
 
     accident.images = JSON.parse(accident.images);
     accident.AI_Response = [

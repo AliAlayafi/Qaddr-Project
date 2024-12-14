@@ -129,14 +129,20 @@
                 <% } %>
                 <% data.forEach(info => { %>        
                     <tr>
-                        <td><%=info.accident_id%></td>
+                        <td>
+                            <%=info.accident_id%>
+                        </td>
                         <td><%=new Date(info.created_at).toLocaleString()%></td>
                         <td><%=info.status%></td>
                         <td>
                             <% if(info.status === 'Rejected') { %>
                                 <p><%= info.message %> re-upload the images.</p>
-                            <% }else{ %>
-                                <h4>-</h4>
+                            <% }else if(info.status === 'Reviewed') { %>
+                                    <input type="hidden" name="reason" id="reason">
+                                    <button class="uk-button uk-button-objection" id="<%=info.accident_id%>" onclick="objection(this)">Objection</button>
+                                    <button class="uk-button pdf" onclick="generatePDF('<%= JSON.stringify(info.AI_Response) %>', '<%= info.accident_id %>')">
+                                        <span uk-icon="download">PDF</span>
+                                    </button>
                             <% } %>
                             
                         </td>
@@ -227,14 +233,47 @@
 
     <button class="up" style="display: none;" onclick="location.href = '#start'">↑</button> 
     
-
-    
+<script src="/js/objection.js"></script>
+<script src="/js/pdf.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <script src="js/upload.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/alert.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
+
+
+
+<style>
+    .swal2-popup-custom {
+        border: 1px solid #003B3E;
+        border-radius: 8px;
+    }
+    .swal2-title-custom {
+        color: #003B3E;
+    }
+    .swal2-confirm {
+        background-color: #003B3E;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 2px;
+    }
+    .swal2-cancel{
+        background-color: #f4f4f4;
+        color: #003B3E;
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 2px;
+    }
+</style>
 
 
 

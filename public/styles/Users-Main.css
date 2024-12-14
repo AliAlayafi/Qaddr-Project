@@ -193,6 +193,16 @@ table{
     background-color: darkblue;
 }
 
+.pdf{
+    background: whitesmoke;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    color:red;
+    transition: background-color 250ms;
+}
+.pdf:hover{
+    background: rgb(241, 239, 239);
+    color:darkred;
+}
 
 
 

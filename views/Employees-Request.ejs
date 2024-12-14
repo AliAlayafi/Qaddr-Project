@@ -149,6 +149,53 @@
 
 
 
+<!-- Approve -->
+ <script>
+
+    document.querySelector("#approve").addEventListener("click", () => {
+
+        Swal.fire({
+            title: 'Are you sure ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: '#ffffff',
+            color: '#003B3E',
+            confirmButtonColor: '#01DC82', 
+            cancelButtonColor: '#d33',
+            customClass: {
+                title: 'swal-title',
+                popup: 'swal-popup',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                let Data = [];
+
+                document.querySelectorAll(".row").forEach(row => {
+                    let price  = parseFloat(row.querySelector('.right input').value) || 0; // Handle empty or invalid input
+                    let part  = row.querySelector('.left input').value || ''; // Handle empty or invalid input
+                    Data.push({part, price });
+                })
+                sendRequest('POST',Data,"Approved Successfully");
+
+
+            }
+        })
+            
+
+
+        
+
+    })
+
+
+ </script>
+
+<!-- Reject -->
 <script>
     const najemData = <%- JSON.stringify(najemData) %>;
 
@@ -187,37 +234,38 @@
                 let reasonText = selectedReason === '1'
                     ? 'The pictures are not clear'
                     : 'Not the same car';    
-                sendRequest(reasonText);
+                sendRequest('PUT',{reasonText},"Rejected Successfully");
 
             }
         });
     });
     
 
-    async function sendRequest(reasonText) {
+    async function sendRequest(methodd,body,text) {
         try {
           const response = await fetch('', { 
-            method: 'PUT', 
+            method: methodd, 
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ reasonText }), 
+            body: JSON.stringify(body), 
           });
 
           if (!response.ok) {
-            message('Error');
+            message('Somthing went wrong');
           }else{
-            location.href = "/employees/main?alert=Rejected Successfully"
+            location.href = `/employees/main?alert=${text}`
           }
         } catch (error) {
-          message('Error');
+            console.log(error)
+          message('Somthing went wrong');
         }
       }
 
 
 </script>
 
-
+<!-- Price Change -->
 <script>
 
     // Function to calculate and update the total
@@ -299,3 +347,5 @@
     refresh();
 
 </script>
+
+
