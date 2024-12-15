@@ -27,15 +27,24 @@ router.put('/:id', async (req, res) => {
         const aid  = req.params.id;
         const reason  = req.body.reason;
 
-        const accident_info = await Accident.findOne({ accident_id: aid, user_id: req.session.userId, status: "Reviewed" });
-        if(!accident_info || !reason.length){
-             return res.status(400).send("BAD");
-        }
-    
-        accident_info.status = "Objection";
-        accident_info.message = reason;
-        await accident_info.save();
+        if(!reason.length)return res.status(400).send("BAD"); // reason is empty
+
+        const accident_info = await Accident.findOne({ accident_id: aid, user_id: req.session.userId });
+
+        if(!accident_info)return res.status(400).send("BAD"); // The Accident not found or its not for this user
         
+        if(accident_info.status === "Reviewed"){
+            accident_info.status = "Objection";
+            accident_info.message = reason;
+            await accident_info.save();
+        }else if(accident_info.status === "Complete"){
+            accident_info.status = "Appointment";
+            accident_info.message = reason;
+            await accident_info.save();
+        }else{
+            return res.status(400).send("BAD");
+        }
+
         return res.status(200).send("OK");
     } catch (error) {
         return res.status(400).send("BAD");

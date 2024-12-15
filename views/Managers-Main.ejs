@@ -8,6 +8,8 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+
     <br>
     
     <div class="top">
@@ -63,7 +65,7 @@
                         <h3>#<%=request.accident_id%></h3>
                     </div>
                     <div class="cl3">
-                        <button class="view">View</button>
+                        <button class="view" onclick="location.href='main/<%=request.accident_id%>'">View</button>
                     </div>
                 </div>
 
@@ -95,6 +97,7 @@
         </button>
     </form>
 
-
+<script src="/js/alert.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

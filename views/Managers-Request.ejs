@@ -13,15 +13,17 @@
 </head>
 <body>
     
+
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
     <br>
     
     <div class="top">
         <nav>
             
            <div class="buttons">
-                <a href="main" id="Requests">Objections</a>
-                <a href="progress">Progress</a>
-                <a href="messages"> Messages</a>
+                <a href="/main" id="Requests">Requests</a>
+                <a href="/managers/progress">Progress</a>
+                <a href="/managers/messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -38,7 +40,7 @@
     <center>
         <div class="container">
             <div class="title">
-                <h1>Objection #JKL3330201002</h1>
+                <h1>Objection #<%= data.accident_id%></h1>
                 <h3>We trust you to deliver accurate and reliable estimations!</h3>
             </div>
         </div>
@@ -49,21 +51,20 @@
     <div class="wrapper">
 
         <div class="options">
-            <button>Najem Report</button>
+            <button id="Najem">Najem Report</button>
+            <button id="user-comment">User Comment</button>
+
         </div>
 
         <div class="photos">
             <div class="slider uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: none">
                 <div class="uk-slideshow-items">
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
-                    <div>
-                        <img src="images/medium.jpg" alt="">
-                    </div>
+                    <% data.images.forEach(img => {%> 
+                        <div>
+                            <img src="<%=img%>" alt="Accident_image">
+                        </div> 
+                    <% }) %>
+                    
                 </div>
         
                 <!-- Navigation Arrows (Always Visible) -->
@@ -84,7 +85,7 @@
 
     
     <center>
-        <h1 style="color:black;">Employee @name Estimation</h1>
+        <h1 style="color:black;">Employee @<%= data.name %> Estimation</h1>
     </center>
     <br>
 
@@ -94,7 +95,25 @@
 
                 <br>
 
-                <h2>No Data Found</h2>
+                <!-- <h2>No Data Found</h2> -->
+                 <% data.AI_Response.forEach(reponse => { %>
+
+                    <div class="row">
+                        <div class="left">
+                            <input type="text" name="" value="<%= reponse.part%>" placeholder="Part">
+                        </div>
+                        <div class="right">
+                            <input type="text" name="" value="<%= reponse.price %>">
+                        </div>
+                        <div class="remove"><h1>X</h1></div>
+                     </div>
+
+                <% }) %>
+
+                 
+                 
+
+                 
 
 
                 <div class="add" onclick="add()">
@@ -108,8 +127,8 @@
 
     <div class="final">
 
-        <span>
-            Total: 300$
+        <span class="total">
+            Total: 0$
         </span>
         <button id="reject">Reject</button>
         <button id="approve">Approve</button>
@@ -122,52 +141,214 @@
     <br>
     <br>
 
-
+<script src="/js/Najem.js"></script>
+<script src="/js/alert.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
 
+<!-- User Comment Button -->
+ <script>
 
+    document.querySelector("#user-comment").addEventListener("click", () => {
+
+
+        Swal.fire({
+            title: '<br><%=data.message%>',
+            confirmButtonText: 'Confirm',
+            background: '#ffffff',
+            color: '#003B3E',
+            confirmButtonColor: '#01DC82', 
+            customClass: {
+                title: 'swal-title',
+                popup: 'swal-popup',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button',
+            },
+        })
+
+    })
+
+</script>
+
+
+<!-- Approve -->
 <script>
 
-    function remove(id) {
+    document.querySelector("#approve").addEventListener("click", () => {
 
-        document.getElementById(id).remove(); 
+        Swal.fire({
+            title: 'Are you sure ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: '#ffffff',
+            color: '#003B3E',
+            confirmButtonColor: '#01DC82', 
+            cancelButtonColor: '#d33',
+            customClass: {
+                title: 'swal-title',
+                popup: 'swal-popup',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                let Data = [];
+
+                document.querySelectorAll(".row").forEach(row => {
+                    let price  = parseFloat(row.querySelector('.right input').value) || 0; // Handle empty or invalid input
+                    let part  = row.querySelector('.left input').value || ''; // Handle empty or invalid input
+                    Data.push({part, price });
+                })
+                sendRequest('POST',JSON.stringify(Data),"Approved Successfully");
+
+
+            }
+        })
+            
+
+
+        
+
+    })
+
+
+ </script>
+
+<!-- Reject -->
+<script>
+    const najemData = <%- JSON.stringify(najemData) %>;
+
+    document.querySelector("#reject").addEventListener("click", () => {
+        Swal.fire({
+            title: 'Are you sure ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            background: '#ffffff', // Set modal background to white
+            color: '#003B3E', // Text color
+            confirmButtonColor: '#01DC82', 
+            cancelButtonColor: '#d33',
+            customClass: {
+                title: 'swal-title',
+                popup: 'swal-popup',
+                confirmButton: 'swal-confirm-button',
+                cancelButton: 'swal-cancel-button',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sendRequest('PUT',null,"Rejected Successfully");
+            }
+        });
+    });
+    
+
+    async function sendRequest(methodd,content,text) {
+        try {
+          const response = await fetch('', { 
+            method: methodd, 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: content, 
+          });
+
+          if (!response.ok) {
+            message('Somthing went wrong');
+          }else{
+            location.href = `/managers/main?alert=${text}`
+          }
+        } catch (error) {
+          message('Somthing went wrong');
+        }
+      }
+
+
+</script>
+
+<!-- Price Change -->
+<script>
+
+    // Function to calculate and update the total
+    function refresh() {
+        let total = 0;
+        document.querySelectorAll('.right input').forEach(row => {
+            const price = parseFloat(row.value) || 0; // Handle empty or invalid input
+            total += price;
+        });
+        document.querySelector('.total').textContent = `Total: ${total.toFixed(2)}$`; // Keep 2 decimal places
+    }
+
+    // Function to remove a row and update total
+    function remove(id) {
+        const row = document.getElementById(id);
+        if (row) {
+            row.remove(); // Remove the row
+            refresh(); // Recalculate total after removal
+        }
+
         const table = document.querySelector('.table');
         if (!table.querySelector('.row')) {
             const noDataMessage = document.createElement('h2');
-            noDataMessage.textContent = "No Data Found"; 
+            noDataMessage.textContent = "No Data Found";
             const lastDiv = table.lastElementChild;
             table.insertBefore(noDataMessage, lastDiv);
         }
-
-    }
-    function add(){
-            const table = document.querySelector('.table');
-            table.contains(table.querySelector('h2')) ? table.removeChild(table.querySelector('h2')) : null;
-            let randomid = Math.floor(Math.random() * 10000000000000000000000000000);
-        
-            // Create a new row element
-            let newRow = document.createElement('div');
-            newRow.className = 'row';
-            newRow.id = randomid;
-            newRow.innerHTML = `
-                <div class="left">
-                    <input type="text" placeholder="Part">
-                </div>
-                <div class="right">
-                    <input type="text" placeholder="$Cost">
-                </div>
-                <div class="remove" onclick="remove('${randomid}')">
-                    <h1>X</h1>
-                </div>
-            `;
-        
-            
-            const lastDiv = table.lastElementChild;
-
-            table.insertBefore(newRow, lastDiv);
-  
     }
 
+    // Function to add a new row
+    function add() {
+        const table = document.querySelector('.table');
+        table.contains(table.querySelector('h2')) ? table.removeChild(table.querySelector('h2')) : null;
+        
+        let randomid = Math.floor(Math.random() * 1e16); // Generate a unique ID
+        
+        // Create a new row element
+        let newRow = document.createElement('div');
+        newRow.className = 'row';
+        newRow.id = randomid;
+        newRow.innerHTML = `
+            <div class="left">
+                <input type="text" placeholder="Part">
+            </div>
+            <div class="right">
+                <input type="text" placeholder="$Cost">
+            </div>
+            <div class="remove" onclick="remove('${randomid}')">
+                <h1>X</h1>
+            </div>
+        `;
+
+        const lastDiv = table.lastElementChild;
+        table.insertBefore(newRow, lastDiv);
+
+        // Add event listener to the new input
+        newRow.querySelector('.right input').addEventListener('keyup', refresh);
+    }
+
+    // Attach remove handlers to all existing rows
+    function attachRemoveHandlers() {
+        document.querySelectorAll('.row').forEach(row => {
+            const removeButton = row.querySelector('.remove');
+            if (removeButton) {
+                const id = row.id || `row-${Math.random()}`; // Ensure the row has an ID
+                row.id = id;
+                removeButton.setAttribute('onclick', `remove('${id}')`);
+            }
+        });
+    }
+
+    // Add event listeners to all existing rows' inputs
+    document.querySelectorAll('.right input').forEach(input => {
+        input.addEventListener('keyup', refresh);
+    });
+
+    // Attach handlers and calculate initial total on page load
+    attachRemoveHandlers();
+    refresh();
 
 </script>

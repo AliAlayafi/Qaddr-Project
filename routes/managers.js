@@ -4,6 +4,8 @@ const router = express.Router();
 const Employee = require('../models/Employee');
 const Message = require('../models/Message');
 const Accident = require('../models/Accident');
+const Najem = require('../models/Najem');
+
 
 
 
@@ -13,6 +15,53 @@ const isManager = (req, res, next) => {
     next();
 };
 
+
+
+router.put('/main/:id', async (req,res) => {
+  try{
+      if (!req.session.userId || req.session.role !== 2) return res.redirect('/employees/login');
+      const accident = await Accident.findOne({ accident_id: req.params.id });
+      accident.status = "Complete";
+      await accident.save();
+      return res.status(200).send("Request Rejected Successfully!");
+  }catch(err){
+      return res.status(400).send("Error!");
+  }   
+})
+router.post('/main/:id', async (req,res) => {
+  try{
+    if (!req.session.userId || req.session.role !== 2) return res.redirect('/employees/login');
+      const accident = await Accident.findOne({ accident_id: req.params.id });
+      accident.employee_id = req.session.userId;
+      accident.response_at = new Date();
+      accident.AI_Response = req.body;
+      accident.status = "Complete";
+      await accident.save();
+      return res.status(200).send("Request Sent Successfully!");
+  }catch(err){
+      return res.status(400).send("Error!");
+  }   
+})
+
+
+
+
+router.use('/main/:id',isManager,async (req,res) => {
+
+  // check valid accident number
+  const accident = await Accident.findOne({ accident_id: req.params.id, status: "Objection" });
+  if(!accident)return res.redirect("/managers/main");
+
+  // Valid accident
+
+  accident.images = JSON.parse(accident.images);
+
+  const employee_name = await Employee.findOne({ _id: accident.employee_id }, 'username');
+  accident.name = employee_name.username;
+  const najemData = await Najem.findOne({ accident_id: req.params.id });
+ 
+  return res.render('Managers-Request', {data:accident,najemData,alert:""});
+})
 
 router.use('/main', isManager, async (req, res) => {
 

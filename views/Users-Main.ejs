@@ -135,14 +135,23 @@
                         <td><%=new Date(info.created_at).toLocaleString()%></td>
                         <td><%=info.status%></td>
                         <td>
+
+                            <% if(info.status === "Objection"){ %>
+                                <p>Waiting for response<p>
+                            <% } %>
+
+                            <% if(info.status === "Reviewed" || info.status === "Complete" || info.status === "Appointment" ){ %>
+                                <button class="uk-button pdf" onclick="generatePDF('<%= JSON.stringify(info.AI_Response) %>', '<%= info.accident_id %>')">
+                                    <span uk-icon="download">PDF</span>
+                                </button>
+                            <% } %>
+
                             <% if(info.status === 'Rejected') { %>
                                 <p><%= info.message %> re-upload the images.</p>
-                            <% }else if(info.status === 'Reviewed') { %>
-                                    <input type="hidden" name="reason" id="reason">
+                            <% }else if(info.status === 'Reviewed' || info.status === 'Complete') { %>
                                     <button class="uk-button uk-button-objection" id="<%=info.accident_id%>" onclick="objection(this)">Objection</button>
-                                    <button class="uk-button pdf" onclick="generatePDF('<%= JSON.stringify(info.AI_Response) %>', '<%= info.accident_id %>')">
-                                        <span uk-icon="download">PDF</span>
-                                    </button>
+                            <% }else if(info.status === 'Appointment'){ %>
+                                    <button class="uk-button uk-button-appointment" id="<%=info.accident_id%>">Appointment</button>
                             <% } %>
                             
                         </td>
