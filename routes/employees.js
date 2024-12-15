@@ -43,7 +43,6 @@ router.put('/main/:id', async (req,res) => {
         return res.status(400).send("Error!");
     }   
 })
-
 router.post('/main/:id', async (req,res) => {
     try{
         if (!req.session.userId || req.session.role !== 1) return res.redirect('/employees/login');

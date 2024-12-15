@@ -32,7 +32,6 @@ router.post('/main/:id', async (req,res) => {
   try{
     if (!req.session.userId || req.session.role !== 2) return res.redirect('/employees/login');
       const accident = await Accident.findOne({ accident_id: req.params.id });
-      accident.employee_id = req.session.userId;
       accident.response_at = new Date();
       accident.AI_Response = req.body;
       accident.status = "Complete";

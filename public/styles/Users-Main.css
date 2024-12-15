@@ -192,6 +192,37 @@ table{
 .uk-button-appointment:hover{
     background-color: darkblue;
 }
+.uk-button-re-appointment{
+    background-color: gray;
+    color: white;
+    transition: background-color 250ms;
+}
+.uk-button-re-appointment:hover{
+    background-color: darkgray;
+}
+
+.time{
+    height:100% auto;
+    width: fit-content;
+    text-align: center;
+    color:white;
+    background: #003B3E;
+    padding: auto;
+    border-radius: 120px;
+    padding: .7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .7rem;
+}
+
+/* .uk-table td:last-child{
+    display: grid;
+    grid-template-columns: repeat(auto, auto);
+    gap: 1em;
+} */
+
+
 
 .pdf{
     background: whitesmoke;

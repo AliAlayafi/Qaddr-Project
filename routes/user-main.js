@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 
     const Accidents = await Accident.find(
         { user_id: req.session.userId },
-        'accident_id created_at status message AI_Response'
+        'accident_id created_at status message AI_Response appointment_date'
     ).sort({ created_at: -1 }); 
 
     return res.render('Users-Main', {alert:'',aid:"",data:Accidents});
@@ -21,12 +21,10 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        // get the aid
-        // check the accident id for the same user and the state is Reviewed
-        // if so edit the accident status to objection and put the message
+
         const aid  = req.params.id;
         const reason  = req.body.reason;
-
+ 
         if(!reason.length)return res.status(400).send("BAD"); // reason is empty
 
         const accident_info = await Accident.findOne({ accident_id: aid, user_id: req.session.userId });
@@ -37,9 +35,16 @@ router.put('/:id', async (req, res) => {
             accident_info.status = "Objection";
             accident_info.message = reason;
             await accident_info.save();
+        }else if(accident_info.status === "Complete" && accident_info.appointment_date != null){ // Re-Schedule the Appointment
+            accident_info.appointment_date = reason;
+            await accident_info.save();
         }else if(accident_info.status === "Complete"){
             accident_info.status = "Appointment";
             accident_info.message = reason;
+            await accident_info.save();
+        }else if(accident_info.status === "Appointment"){
+            accident_info.status = "Complete";
+            accident_info.appointment_date = reason;
             await accident_info.save();
         }else{
             return res.status(400).send("BAD");

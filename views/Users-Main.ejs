@@ -140,7 +140,7 @@
                                 <p>Waiting for response<p>
                             <% } %>
 
-                            <% if(info.status === "Reviewed" || info.status === "Complete" || info.status === "Appointment" ){ %>
+                            <% if(info.status === "Reviewed" || info.status === "Complete" || info.status === "Appointment" || info.status === "Closed" ){ %>
                                 <button class="uk-button pdf" onclick="generatePDF('<%= JSON.stringify(info.AI_Response) %>', '<%= info.accident_id %>')">
                                     <span uk-icon="download">PDF</span>
                                 </button>
@@ -148,10 +148,19 @@
 
                             <% if(info.status === 'Rejected') { %>
                                 <p><%= info.message %> re-upload the images.</p>
-                            <% }else if(info.status === 'Reviewed' || info.status === 'Complete') { %>
+                            <% }else if(info.status === 'Reviewed' || (info.status === 'Complete' && info.appointment_date === null)) { %>
                                     <button class="uk-button uk-button-objection" id="<%=info.accident_id%>" onclick="objection(this)">Objection</button>
                             <% }else if(info.status === 'Appointment'){ %>
-                                    <button class="uk-button uk-button-appointment" id="<%=info.accident_id%>">Appointment</button>
+                                <button class="uk-button uk-button-appointment" id="<%=info.accident_id%>" onclick="selectAppointmentDate(this)">
+                                    Appointment
+                                </button>                
+                            <% } else if(info.status === 'Complete' && info.appointment_date != null){ %>
+                                <button class="uk-button uk-button-re-appointment" id="<%=info.accident_id%>" onclick="selectAppointmentDate(this)">
+                                    Re-Schedule
+                                </button> 
+                                <center>
+                                    <span uk-icon="clock" class="time"><%=new Date(info.appointment_date).toLocaleString()%></span> 
+                                </center>             
                             <% } %>
                             
                         </td>
@@ -238,7 +247,7 @@
         </div>
     </footer>
 
- 
+    
 
     <button class="up" style="display: none;" onclick="location.href = '#start'">↑</button> 
     
@@ -252,6 +261,7 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
+
 
 
 
@@ -283,6 +293,56 @@
         margin-left: 2px;
     }
 </style>
+
+
+<script>
+    function selectAppointmentDate(e) {
+        const today = new Date().toISOString();
+        
+        Swal.fire({
+            html: `
+                <br>
+                <h2>Select Appointment Date</h2>
+                <input type="datetime-local" id="appointmentDate" class="swal2-input" min="${today}">
+            `,
+            focusConfirm: false,
+            confirmButtonText: 'Confirm',
+            preConfirm: () => {
+                const appointmentDate = document.getElementById('appointmentDate').value;
+                if (!appointmentDate) {
+                    Swal.showValidationMessage('Please select a date');
+                }
+                return appointmentDate;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let selectedDate = result.value;
+                fetch(`/main/${e.id}`,{
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method:'PUT',
+                    body: JSON.stringify({reason:selectedDate})
+                }).then((response) => {
+                    if(response.ok){
+                        Swal.fire({
+                            icon:"success",
+                            title:selectedDate.replace("T"," "),
+                            html:"Appointment Scheduled Successfully",
+                        }).then(() => location.reload())
+                        
+                    }else{
+                        Swal.fire({
+                            icon:"error",
+                            title:'Somthing went wrong',
+                        });
+                    }
+                })
+                
+            }
+        });
+    }
+</script>
 
 
 

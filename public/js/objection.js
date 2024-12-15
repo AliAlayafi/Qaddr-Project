@@ -36,6 +36,7 @@ function objection(e){
                     },
                     body: JSON.stringify({ reason }),
                 });
+                console.log(response)
                 if (response.ok) {
                     
                     Swal.fire({
