@@ -28,7 +28,7 @@ const accidentSchema = new mongoose.Schema({
     },
     status: { 
         type: String, 
-        enum: ['Pending', 'Process','Rejected','Reviewed','Objection', 'Appointment','Complete'], 
+        enum: ['Pending', 'Process','Rejected','Reviewed','Objection', 'Appointment','Complete','Closed'], 
         default: 'Pending' 
     },
     message: { 

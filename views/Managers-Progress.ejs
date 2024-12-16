@@ -8,15 +8,17 @@
 </head>
 <body>
     
+    <input class="message" type="text" value="<%=alert%>" style="display: none;">
+        
     <br>
     
     <div class="top">
         <nav>
             
            <div class="buttons">
-                <a href="main">Objections</a>
-                <a href="progress" id="active">Progress</a>
-                <a href="messages"> Messages</a>
+                <a href="/managers/main">Objections</a>
+                <a href="/managers/progress" id="active">Progress</a>
+                <a href="/managers/messages"> Messages</a>
            </div>
            <div class="note">
                 <img src="/images/bell.png" alt="bell">
@@ -41,23 +43,28 @@
         <div class="requests">
 
            <div class="for-input">
-                <input type="text" placeholder="Search">
-                <div class="icon"></div>
+                <input type="text" placeholder="Search" id="name">
+                <div class="icon" id="search"></div>
            </div>
 
-           <h2>@Employee</h2>
+           <% if(data){ %>
+
+            <h2>@<%= JSON.parse(data).name %></h2>
            <div>
                 <center>
-                    <h3>Total Requests : 100</h3>
-                    <h3>Approved : 80</h3>
+                    <h3>Total Requests : <%= JSON.parse(data).total %></h3>
+                    <h3>Approved :  <%= JSON.parse(data).employee %></h3>
                 </center>
            </div>
            <br>
 
            <div class="progress">
-            <div class="line" style="width:80%"></div>
-            <h3>80%</h3>
+            <div class="line" style="width:<%= (JSON.parse(data).employee/JSON.parse(data).total)*100 %>%"></div>
+            <h3><%= (JSON.parse(data).employee/JSON.parse(data).total)*100 %>%</h3>
            </div>
+
+           <% } %>
+           
 
            
 
@@ -77,6 +84,23 @@
         </button>
     </form>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/alert.js"></script>
 </body>
 </html>
 
+
+
+<script>
+
+    document.querySelector("#search").addEventListener("click", () => {
+
+        const name = document.querySelector("#name").value.trim();
+        if(!name || String.empty)return message("Please Enter a name");
+        
+        location.href = `/managers/progress/${name}`;
+
+    })
+
+
+</script>

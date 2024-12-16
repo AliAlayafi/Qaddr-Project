@@ -49,8 +49,8 @@
     <br>
     <center>
       <hr>
-      <h4>Requests : 200</h4>
-      <h4>Approved : 50</h4>
+      <h4>Requests : <%= JSON.parse(info).total %></h4>
+      <h4>Approved : <%= JSON.parse(info).employee %></h4>
     </center>
     <br>
     <br>
@@ -68,13 +68,14 @@
 </html>
 
 <script>
+    const data = <%-info%>;   
     const ctx = document.getElementById('myPieChart').getContext('2d');
     const myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: ['Requests','Approved'],
             datasets: [{
-                data: [200, 50],
+                data: [data.total, data.employee],
                 backgroundColor: ['#4CAF50', '#FFC107'],
             }]
         },

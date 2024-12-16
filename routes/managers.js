@@ -73,9 +73,27 @@ router.use('/main', isManager, async (req, res) => {
  
 });
 
-router.use('/progress', isManager, (req, res) => {
-    return res.render('Managers-Progress');
+
+
+
+router.use('/progress/:name', isManager, async (req, res) => {
+
+  const Check_Employee = await Employee.findOne({username: req.params.name, role: 1},'_id');
+
+  if(!Check_Employee){
+    return res.redirect(`/managers/progress?alert=\@${req.params.name} not found`);
+  }
+  const Total_Employee_accidents = (await Accident.find({employee_id: Check_Employee._id})).length;
+  const Total_accidents = (await Accident.find()).length;
+  
+  return res.render('Managers-Progress', {alert:"",data:JSON.stringify({name:req.params.name,total:Total_accidents,employee:Total_Employee_accidents})});
 })
+router.use('/progress', isManager, (req, res) => {
+    return res.render('Managers-Progress',{alert:"",data:null});
+})
+
+
+
 
 
 

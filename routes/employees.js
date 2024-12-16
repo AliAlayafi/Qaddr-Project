@@ -92,9 +92,19 @@ router.use('/main', isEmployee, async (req, res) => {
 
 
 
-router.use('/progress', isEmployee, (req, res) => {
-    return res.render('Employees-Progress');
+
+
+
+router.use('/progress', isEmployee, async (req, res) => {
+
+    const Total_accidents = (await Accident.find()).length;
+    const Total_Employee_accidents = (await Accident.find({employee_id: req.session.userId})).length;
+
+    return res.render('Employees-Progress', { info:JSON.stringify({total:Total_accidents,employee:Total_Employee_accidents}) });
 })
+
+
+
 
 
 router.use('/messages', isEmployee, async (req, res) => {
