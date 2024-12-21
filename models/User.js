@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { validateUsername, validateEmail,validatePassword } = require('../utils/register_validation');
+const { hashPassword } = require('../utils/passwordUtils'); 
 
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
@@ -7,15 +9,31 @@ const userSchema = new mongoose.Schema({
     createDate: { type: Date, default: Date.now },
 });
 
-
-const { hashPassword } = require('../utils/passwordUtils'); 
-
 userSchema.pre('save', async function (next) {
-    if (this.isModified('password')) {
-      this.password = await hashPassword(this.password);
+    // Validate username
+    if (!validateUsername(this.username)) {
+        const error = new Error('Invalid username. Only letters are allowed.');
+        return next(error);
     }
-    next(); // Continue the saving process
-});
 
+    // Validate email
+    if (!validateEmail(this.email)) {
+        const error = new Error('Invalid email format.');
+        return next(error);
+    }
+
+    // Validate password
+    if (!validatePassword(this.password)) {
+        const error = new Error('Password must be at least 8 characters long.');
+        return next(error);
+    }
+
+    // Hash password if modified
+    if (this.isModified('password')) {
+        this.password = await hashPassword(this.password);
+    }
+    
+    next();
+});
 
 module.exports = mongoose.model('User', userSchema);

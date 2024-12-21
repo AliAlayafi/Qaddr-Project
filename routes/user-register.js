@@ -30,7 +30,10 @@ router.post('/', async (req, res) => {
         return res.redirect('/main');
 
     } catch (error) {
-        return res.redirect('/register?alert=The Cridentials Alrady Exists');
+        if(error.errorResponse){
+            return res.redirect(`/register?alert=The Cradential already exists.`);
+        }     
+        return res.redirect(`/register?alert=${error.message}`);
     }
 });
 

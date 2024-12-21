@@ -20,6 +20,9 @@ html,body{
     align-items: center;
 }
 
+.error{
+    border-bottom: 1px solid red !important;
+}
 
 .right{
     width: 50%;
