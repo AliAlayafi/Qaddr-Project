@@ -70,6 +70,8 @@ nav{
     min-width: 50px;
 }
 .note img{
+    width: 25px;
+    height: 25px;
     cursor: pointer;
 }
 .avatar{

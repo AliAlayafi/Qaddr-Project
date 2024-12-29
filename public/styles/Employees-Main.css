@@ -67,10 +67,31 @@ nav{
     align-items: center;
     justify-content: center;
     min-width: 50px;
+    position: relative;
 }
 .note img{
+    width: 25px;
+    height: 25px;
     cursor: pointer;
+    position: relative;
 }
+.note::before{
+    content: "";
+    position: absolute;
+    width:10px;
+    height:10px;
+    background: red;
+    border-radius: 50%;
+    z-index: 100;
+    top:10px;
+    right:14px;
+    display: none;
+}
+.note.unread::before {
+    display: block;
+}
+
+
 .avatar{
     width:20%;
     height:100%;

@@ -20,6 +20,10 @@ const messageSchema = new mongoose.Schema({
     ref: 'Employee', // The name of the referenced model (e.g., 'Employee')
     required: true,
   },
+  read: {
+    type: Boolean,
+    default: false, // Initially unread messages are marked as unread
+  },
   created_at: {
     type: Date,
     default: Date.now, // Automatically sets the current date and time

@@ -16,6 +16,8 @@ const isEmployee = (req, res, next) => {
     next();
 };
 
+
+// employees/t => for adding a new accident
 // router.get('/t',async (req,res) => {
 //     const testAccident = new Accident({
 //         accident_id: 12345678,
@@ -107,6 +109,22 @@ router.use('/progress', isEmployee, async (req, res) => {
 
 
 
+
+router.use('/notifications', isEmployee, async (req, res) => {
+
+    try {
+        const unreadCount = await Message.countDocuments({
+            employee_id: req.session.userId,
+            read: false
+        });
+        // Render the page and send messages data
+        return res.status(200).json({unreadCount});
+    } catch (err) {
+        console.error('Error fetching messages:', err);
+        return res.status(500).send('Internal Server Error');
+    }
+
+})
 router.use('/messages', isEmployee, async (req, res) => {
 
     try {
@@ -114,6 +132,12 @@ router.use('/messages', isEmployee, async (req, res) => {
             { employee_id: req.session.userId },
             'title message created_at'
         ).sort({ created_at: -1 }); // Sort by most recent messages
+
+        // Update all unread messages to read: true
+        await Message.updateMany(
+            { employee_id: req.session.userId, read: false },  // Filter for unread messages
+            { $set: { read: true } }  // Update to read
+        );
 
         // Render the page and send messages data
         return res.render('Employees-Messages', { messages });
