@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true, limit: '20mb' }));  // Increase lim
 app.use(express.json({ limit: '20mb' }));  // Increase limit to 10MB for JSON bodies
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'yourSecretKey',
     resave: false,
@@ -38,6 +40,7 @@ mongoose.connect(process.env.MONGO_URI)
 const landingRoutes = require('./routes/landing');
 const Users_Login_Route = require('./routes/user-login');
 const Users_Logout_Route = require('./routes/logout');
+const Users_Reset_Route = require('./routes/reset');
 const Users_Register_Route = require('./routes/user-register');
 const Users_Main_Route = require('./routes/user-main');
 
@@ -45,6 +48,7 @@ const Users_Main_Route = require('./routes/user-main');
 
 app.use('/', landingRoutes); 
 app.use('/login', Users_Login_Route); 
+app.use('/reset', Users_Reset_Route); 
 app.use('/logout', Users_Logout_Route); 
 app.use('/register', Users_Register_Route); 
 app.use('/main', Users_Main_Route); 

@@ -89,7 +89,7 @@ router.post("/upload", async (req, res) => {
     try {
 
         const accident_id = req.body.aid;
-        const images = req.body.images;
+        const images = JSON.parse(req.body.images);
         const result = await Najem.check_aid(accident_id);
         if (!result) {
             return res.redirect('/main?alert=Can\'t find the Accident Number');

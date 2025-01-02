@@ -11,7 +11,7 @@
     <input class="message" type="text" value="<%=alert%>" style="display: none;">
 
 
-    <form action="/login" method="post" class="left">
+    <form action="/reset" method="post" class="left">
         
 
         <main>
@@ -20,21 +20,17 @@
                     <img src="/logo/png/logo-black-removebg-preview.png" alt="logo-black">
             </div>
             <div class="text">
-                <h1>Login,</h1>
+                <h1>Reset Password,</h1>
                 <h2>Welcome to Qaddr</h2>
             </div>
             <div class="login">
                 <br>
                 <input type="text" name="username" placeholder="Username" required>
                 <br>
-                <div class="pass">
-                    <input type="password" name="password" placeholder="Password" required>
-                    <a href="/reset">Forget Password ?</a>
-                </div>
+                <button>Reset</button>
                 <br>
-                <button>Login</button>
                 <center>
-                    <h4>Don’t have an account? <a href="/register">Sign Up</a></h4>
+                    <h4>Login page <a href="/login">Click here</a></h4>
                 </center>
             </div>
 
