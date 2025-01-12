@@ -50,7 +50,7 @@ const accidentSchema = new mongoose.Schema({
                     type: String,
                     required: true 
                 },
-                price: {
+                cost: {
                     type: Number, 
                     required: true 
                 }

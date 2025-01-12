@@ -35,7 +35,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
         e.preventDefault();
         document.querySelector("#confirm-password").classList.add("error");  
     }
-
 })
 function prevent_whitespace(e){
     if(e.key == " "){

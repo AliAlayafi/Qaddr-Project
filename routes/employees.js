@@ -65,17 +65,6 @@ router.use('/main/:id',isEmployee,async (req,res) => {
     const accident = await Accident.findOne({ accident_id: req.params.id, status: "Process" });
     if(!accident)return res.redirect("/employees/main");
 
-    // Valid accident
-
-    // Get The Data
-    // for testing
-    accident.images = JSON.parse(accident.images);
-    accident.AI_Response = [
-        { part: 'front-bumper', price: 5000 },
-        { part: 'rear-bumper', price: 5000 }
-    ];
-
-
     const najemData = await Najem.findOne({ accident_id: req.params.id });
    
     return res.render('Employees-Request', {data:accident,najemData,alert:""});

@@ -55,7 +55,7 @@
     <div class="wrapper">
 
         <div class="options">
-            <button>AI images</button>
+            <button id="Ai">AI images</button>
             <button id="Najem">Najem Report</button>
         </div>
 
@@ -106,7 +106,7 @@
                             <input type="text" name="" value="<%= reponse.part%>" placeholder="Part">
                         </div>
                         <div class="right">
-                            <input type="text" name="" value="<%= reponse.price %>">
+                            <input type="text" name="" value="<%= reponse.cost %>">
                         </div>
                         <div class="remove"><h1>X</h1></div>
                      </div>
@@ -114,10 +114,6 @@
                 <% }) %>
 
                  
-                 
-
-                 
-
 
                 <div class="add" onclick="add()">
                     <h1>+</h1>
@@ -145,6 +141,7 @@
     <br>
 
 <script src="/js/Najem.js"></script>
+<script src="/js/Ai.js"></script>
 <script src="/js/alert.js"></script>
 <script src="/js/notifications.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -202,6 +199,7 @@
 <!-- Reject -->
 <script>
     const najemData = <%- JSON.stringify(najemData) %>;
+    const AiData = <%- JSON.stringify(data.AI_Images) %>;
 
     document.querySelector("#reject").addEventListener("click", () => {
         Swal.fire({
