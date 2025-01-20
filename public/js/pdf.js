@@ -3,7 +3,7 @@ async function generatePDF(jsonData, accident_id) {
 
     jsonData = JSON.parse(jsonData);
 
-    const totalPrice = jsonData.reduce((sum, item) => sum + item.price, 0);
+    const totalPrice = jsonData.reduce((sum, item) => sum + item.cost, 0);
 
     const doc = new jsPDF();
 
@@ -30,8 +30,8 @@ async function generatePDF(jsonData, accident_id) {
     // Add table with parts and prices
     doc.autoTable({
         startY: 80,
-        head: [['Part', 'Price']],
-        body: jsonData.map(item => [item.part, `$${item.price.toFixed(2)}`]),
+        head: [['Part', 'Cost']],
+        body: jsonData.map(item => [item.part, `$${item.cost.toFixed(2)}`]),
         theme: 'grid',
         styles: { font: "helvetica", fontSize: 10 },
         headStyles: { fillColor: [0, 59, 62], textColor: [255, 255, 255] },

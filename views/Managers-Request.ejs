@@ -100,7 +100,7 @@
                             <input type="text" name="" value="<%= reponse.part%>" placeholder="Part">
                         </div>
                         <div class="right">
-                            <input type="text" name="" value="<%= reponse.price %>">
+                            <input type="text" name="" value="<%= reponse.cost %>">
                         </div>
                         <div class="remove"><h1>X</h1></div>
                      </div>
@@ -196,9 +196,9 @@
                 let Data = [];
 
                 document.querySelectorAll(".row").forEach(row => {
-                    let price  = parseFloat(row.querySelector('.right input').value) || 0; // Handle empty or invalid input
+                    let cost  = parseFloat(row.querySelector('.right input').value) || 0; // Handle empty or invalid input
                     let part  = row.querySelector('.left input').value || ''; // Handle empty or invalid input
-                    Data.push({part, price });
+                    Data.push({part, cost });
                 })
                 sendRequest('POST',JSON.stringify(Data),"Approved Successfully");
 

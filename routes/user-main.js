@@ -31,19 +31,16 @@ router.put('/:id', async (req, res) => {
 
         if(!accident_info)return res.status(400).send("BAD"); // The Accident not found or its not for this user
         
+        
         if(accident_info.status === "Reviewed"){
             accident_info.status = "Objection";
             accident_info.message = reason;
             await accident_info.save();
-        }else if(accident_info.status === "Complete" && accident_info.appointment_date != null){ // Re-Schedule the Appointment
+        }else if(accident_info.status === "Appointment"){ // Re-Schedule the Appointment
             accident_info.appointment_date = reason;
             await accident_info.save();
         }else if(accident_info.status === "Complete"){
             accident_info.status = "Appointment";
-            accident_info.message = reason;
-            await accident_info.save();
-        }else if(accident_info.status === "Appointment"){
-            accident_info.status = "Complete";
             accident_info.appointment_date = reason;
             await accident_info.save();
         }else{

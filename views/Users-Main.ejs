@@ -140,21 +140,24 @@
                                 <p>Waiting for response<p>
                             <% } %>
 
+                            <!-- PDF Button -->
                             <% if(info.status === "Reviewed" || info.status === "Complete" || info.status === "Appointment" || info.status === "Closed" ){ %>
                                 <button class="uk-button pdf" onclick="generatePDF('<%= JSON.stringify(info.AI_Response) %>', '<%= info.accident_id %>')">
                                     <span uk-icon="download">PDF</span>
                                 </button>
                             <% } %>
 
+
+
                             <% if(info.status === 'Rejected') { %>
                                 <p><%= info.message %> re-upload the images.</p>
-                            <% }else if(info.status === 'Reviewed' || (info.status === 'Complete' && info.appointment_date === null)) { %>
+                            <% }else if(info.status === 'Reviewed') { %>
                                     <button class="uk-button uk-button-objection" id="<%=info.accident_id%>" onclick="objection(this)">Objection</button>
-                            <% }else if(info.status === 'Appointment'){ %>
+                            <% }else if(info.status === 'Complete'){ %>
                                 <button class="uk-button uk-button-appointment" id="<%=info.accident_id%>" onclick="selectAppointmentDate(this)">
                                     Appointment
                                 </button>                
-                            <% } else if(info.status === 'Complete' && info.appointment_date != null){ %>
+                            <% } else if(info.status === 'Appointment'){ %>
                                 <button class="uk-button uk-button-re-appointment" id="<%=info.accident_id%>" onclick="selectAppointmentDate(this)">
                                     Re-Schedule
                                 </button> 
@@ -162,6 +165,9 @@
                                     <span uk-icon="clock" class="time"><%=new Date(info.appointment_date).toLocaleString()%></span> 
                                 </center>             
                             <% } %>
+
+
+
                             
                         </td>
                     </tr>

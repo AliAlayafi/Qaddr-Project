@@ -21,6 +21,7 @@ router.put('/main/:id', async (req,res) => {
   try{
       if (!req.session.userId || req.session.role !== 2) return res.redirect('/employees/login');
       const accident = await Accident.findOne({ accident_id: req.params.id });
+      accident.response_at = new Date();
       accident.status = "Complete";
       await accident.save();
       return res.status(200).send("Request Rejected Successfully!");
@@ -52,8 +53,7 @@ router.use('/main/:id',isManager,async (req,res) => {
   if(!accident)return res.redirect("/managers/main");
 
   // Valid accident
-
-  accident.images = JSON.parse(accident.images);
+  // accident.images = JSON.parse(accident.images);
 
   const employee_name = await Employee.findOne({ _id: accident.employee_id }, 'username');
   accident.name = employee_name.username;
