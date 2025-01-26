@@ -98,7 +98,10 @@
 
                 <br>
 
-                <!-- <h2>No Data Found</h2> -->
+                <% if(!data.length) {%>
+                    <h2>No Data Found</h2>
+                <% } %>
+
                  <% data.AI_Response.forEach(reponse => { %>
 
                     <div class="row">
@@ -113,7 +116,9 @@
 
                 <% }) %>
 
-                 
+                
+
+
 
                 <div class="add" onclick="add()">
                     <h1>+</h1>
