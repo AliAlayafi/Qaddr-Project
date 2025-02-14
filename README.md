@@ -33,7 +33,7 @@ Qaddr is an online platform that allows users to estimate car damage costs using
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/3Li/Qaddr.git
+git clone https://github.com/AliAlayafi/Qaddr-Project.git
 cd Qaddr
 ```
 
