@@ -5,7 +5,7 @@
 Qaddr is an online platform that allows users to estimate car damage costs using AI. Users can submit accident reports, upload images, track their report status, and raise objections. Employees review and approve reports, while managers handle objections and schedule manual inspections.
 
 ## Project Workflow
-![Project Workflow](https://imgur.com/a/gvjm028)
+[![workflow.jpg](https://i.postimg.cc/Kjbbtkkr/workflow.jpg)](https://postimg.cc/Hc6FgLtV)
 
 ## Features
 
